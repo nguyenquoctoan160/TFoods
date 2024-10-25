@@ -26,6 +26,7 @@ import com.example.tfoodsapi.security.JwtUtil;
 import com.example.tfoodsapi.security.authentication.CustomAuthenticationToken;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/users")
@@ -96,6 +97,23 @@ public class UserController {
         } else {
             response.put("error", "Invalid username or password");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @GetMapping("/myinfo")
+    public ResponseEntity<User> getUserInfomation() {
+        try {
+            System.out.println(SecurityContextHolder.getContext()
+                    .getAuthentication());
+            CustomAuthenticationToken authentication = (CustomAuthenticationToken) SecurityContextHolder.getContext()
+                    .getAuthentication();
+            Integer userId = authentication.getUserId();
+            User user = userService.getUserById(userId);
+            user.setPassword("***");
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.status(500).body(null);
         }
     }
 

@@ -1,0 +1,26 @@
+<div class="user-info-container">
+    <form #userForm="ngForm">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" [(ngModel)]="user.username" class="form-control"
+                required />
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="user.email" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" name="role" [(ngModel)]="user.role" class="form-control" required>
+                <option value="ADMIN">Admin</option>
+                <option value="USER">User</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="avatarUrl">Avatar URL:</label>
+            <input type="text" id="avatarUrl" name="avatarUrl" [(ngModel)]="user.avatarUrl" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
