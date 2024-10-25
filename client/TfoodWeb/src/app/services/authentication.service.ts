@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Loginresponse } from 'src/app/models/loginresponse';
+import { CookieService } from 'ngx-cookie-service';
+import { LoginUser } from 'src/app/models/login-user';
+import { RegisterUser } from 'src/app/models/register-user';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,13 +15,13 @@ export class AuthenticationService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.token ? true : false); // BehaviorSubject for login status
   isLogin$ = this.isLoggedInSubject.asObservable(); // Expose as observable
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService) { }
 
-  register(user: any): Observable<any> {
+  register(user: LoginUser): Observable<any> {
     return this.http.post(`${this.baseUrl}/users/register`, user);
   }
 
-  login(user: any): void {
+  login(user: RegisterUser): void {
     this.http.post<Loginresponse>(`${this.baseUrl}/users/login`, user).subscribe({
       next: (response) => {
         console.log(response);
@@ -43,14 +46,14 @@ export class AuthenticationService {
   }
 
   private setSession(token: string, username: string, imgUrl: string): void {
-    localStorage.setItem('token', token);
+    this.cookieService.set('JWtoken', token, 7, '/');
     localStorage.setItem('username', username);
     localStorage.setItem('imgUrl', imgUrl);
     this.isLoggedInSubject.next(true); // Update login status
   }
 
   private clearSession(): void {
-    localStorage.removeItem('token');
+    this.cookieService.delete('JWtoken', '/');
     localStorage.removeItem('username');
     localStorage.removeItem('imgUrl');
     this.isLoggedInSubject.next(false); // Update login status

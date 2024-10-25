@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,16 +102,25 @@ public class UserController {
     }
 
     @GetMapping("/myinfo")
+
     public ResponseEntity<User> getUserInfomation() {
         try {
-            System.out.println(SecurityContextHolder.getContext()
-                    .getAuthentication());
-            CustomAuthenticationToken authentication = (CustomAuthenticationToken) SecurityContextHolder.getContext()
-                    .getAuthentication();
-            Integer userId = authentication.getUserId();
-            User user = userService.getUserById(userId);
-            user.setPassword("***");
-            return ResponseEntity.ok(user);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication instanceof CustomAuthenticationToken) {
+                CustomAuthenticationToken customAuth = (CustomAuthenticationToken) authentication;
+                Integer userId = customAuth.getUserId();
+                System.err.println("User ID from SecurityContext: " + userId);
+
+                if (userId == null) {
+                    return ResponseEntity.badRequest().body(null);
+                }
+
+                User user = userService.getUserById(userId);
+                user.setPassword("***");
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
         } catch (Exception e) {
             System.out.println(e);
             return ResponseEntity.status(500).body(null);
