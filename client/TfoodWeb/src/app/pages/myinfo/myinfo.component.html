@@ -1,26 +1,43 @@
-<div class="user-info-container">
-    <form #userForm="ngForm">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" [(ngModel)]="user.username" class="form-control"
-                required />
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" [(ngModel)]="user.email" class="form-control" required />
-        </div>
-        <div class="form-group">
-            <label for="role">Role:</label>
-            <select id="role" name="role" [(ngModel)]="user.role" class="form-control" required>
-                <option value="ADMIN">Admin</option>
-                <option value="USER">User</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="avatarUrl">Avatar URL:</label>
-            <input type="text" id="avatarUrl" name="avatarUrl" [(ngModel)]="user.avatarUrl" class="form-control" />
+<div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden p-6 space-y-6">
+    <div class="flex items-center space-x-4">
+        <!-- Avatar Image Display -->
+        <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-200" (click)="openAvatarDialog()">
+            <img [src]="user.avatarUrl" alt="User Avatar" class="w-full h-full object-cover" />
         </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        <!-- User Information -->
+        <div>
+            <h2 class="text-lg font-semibold text-gray-700">{{'USER_INFORMATION'|translate}}</h2>
+            <p class="text-sm text-gray-500">{{'DETAIL_ABOUT_USER'|translate}}</p>
+        </div>
+    </div>
+
+    <!-- Form Fields -->
+    <form #userForm="ngForm" class="space-y-4">
+        <!-- Username (Read-Only) -->
+        <div class="flex flex-col">
+            <label for="username" class="text-gray-600 font-medium">{{'USERNAME'|translate}}:</label>
+            <input type="text" id="username" name="username" [(ngModel)]="user.username"
+                class="bg-gray-100 p-2 rounded text-gray-500" readonly />
+        </div>
+
+        <!-- Email (Read-Only) -->
+        <div class="flex flex-col">
+            <label for="email" class="text-gray-600 font-medium">Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="user.email"
+                class="bg-gray-100 p-2 rounded text-gray-500" readonly />
+        </div>
+
+        <!-- Role (Read-Only) -->
+        <div class="flex flex-col">
+            <label for="role" class="text-gray-600 font-medium">{{"ROLE"|translate}}:</label>
+            <!-- <input type="text" id="role" name="role" [(ngModel)]="user.role"
+                class="bg-gray-100 p-2 rounded text-gray-500" readonly hidden/> -->
+            <span>{{ user.role | translate }}</span>
+        </div>
+
+        <!-- Submit Button -->
+        <!-- <button type="submit"
+            class="w-full py-2 px-4 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">Save</button> -->
     </form>
 </div>

@@ -6,11 +6,12 @@ import { Loginresponse } from 'src/app/models/loginresponse';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginUser } from 'src/app/models/login-user';
 import { RegisterUser } from 'src/app/models/register-user';
+import { environment } from 'src/app/environment/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private baseUrl = 'http://localhost:3040/api'; // Change URL if needed
+  private baseUrl = environment.baseUrl; // Change URL if needed
   private token: string | null = localStorage.getItem('token');
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.token ? true : false); // BehaviorSubject for login status
   isLogin$ = this.isLoggedInSubject.asObservable(); // Expose as observable

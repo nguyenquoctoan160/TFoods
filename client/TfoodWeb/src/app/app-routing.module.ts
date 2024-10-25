@@ -11,7 +11,7 @@ import { MyinfoComponent } from 'src/app/pages/myinfo/myinfo.component';
 const routes: Routes = [{ path: '', component: HomeComponent, canActivate: [authGuard] },
 { path: 'register', component: RegisterComponent },
 { path: "login", component: LoginComponent },
-{ path: "myinfor", component: MyinfoComponent, canActivate: [authGuard] }];
+{ path: "profile", component: MyinfoComponent, canActivate: [authGuard] }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Upload and Edit Avatar</h2>
+<div mat-dialog-content class="space-y-4">
+    <!-- File Input Trigger -->
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+    <!-- Image Cropper for Editing -->
+    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1" format="png"
+        (imageCropped)="onImageCropped($event)">
+    </image-cropper>
+</div>
+
+<div mat-dialog-actions class="justify-end space-x-2">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" (click)="saveAvatar()">Save</button>
+</div>
