@@ -12,18 +12,12 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  // Lấy token từ localStorage và thêm vào header
-  private getAuthHeaders(): HttpHeaders {
-    const token = "Bearer " + localStorage.getItem('token'); // Lấy token từ localStorage
-    return new HttpHeaders({
-      Authorization: token
-    });
-  }
+
 
   // Lấy thông tin người dùng hiện tại
   getUserInfo(): Observable<User> {
-    const headers = this.getAuthHeaders(); // Gọi hàm để lấy header chứa token
-    return this.http.get<User>(`${this.baseUrl}/users/myinfo`, { headers });
+    // Gọi hàm để lấy header chứa token
+    return this.http.get<User>(`${this.baseUrl}/users/myinfo`, { withCredentials: true });
   }
 
   // // Lưu thông tin người dùng sau khi chỉnh sửa

@@ -8,11 +8,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.tfoodsapi.projectpackage.projectenum.Role;
 import com.example.tfoodsapi.security.JwtUtil;
 import com.example.tfoodsapi.security.authentication.CustomAuthenticationToken;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -26,21 +28,40 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authorizationHeader = request.getHeader("Authorization");
-        System.err.println(authorizationHeader);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
+        String authorizationHeader = getToken(request);
+
+        if (authorizationHeader != null) {
+            String token = authorizationHeader;
             Integer userId = jwtUtil.extractToID(token);
 
             if (userId != null) {
                 // Tạo CustomAuthenticationToken
+                System.out.println(userId);
                 CustomAuthenticationToken authentication = new CustomAuthenticationToken(token, userId, null, null,
-                        null);
+                        Role.NONE);
                 // Lưu vào SecurityContextHolder
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    public String getToken(HttpServletRequest request) {
+        // Lấy tất cả các cookies từ request
+        Cookie[] cookies = request.getCookies();
+
+        // Kiểm tra nếu cookies không null
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                // Kiểm tra xem cookie có tên là "JWtoken" hay không
+                if ("JWtoken".equals(cookie.getName())) {
+                    // Trả về giá trị của cookie
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return "JWtoken not found!";
     }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -13,7 +14,7 @@ export class HeaderComponent {
   userName = '';
   userAvatar = '';
   private loginSubscription: Subscription = new Subscription();
-  constructor(private authService: AuthenticationService, public translate: TranslateService) { }
+  constructor(private authService: AuthenticationService, public translate: TranslateService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
     this.reloadUserData();
@@ -24,7 +25,7 @@ export class HeaderComponent {
   }
 
   private reloadUserData(): void {
-    const token = localStorage.getItem('token');
+    const token = this.cookieService.get("JWtoken");
     if (token) {
       this.isLoggedIn = true;
       this.userName = localStorage.getItem('username') || 'Guest';
