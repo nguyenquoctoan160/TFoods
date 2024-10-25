@@ -1,12 +1,19 @@
 {
 	"ALL_RIGHTS_RESERVED": "All rights reserved",
+	"BUYER": "Buyer",
 	"CART": "Cart",
+	"DETAIL_ABOUT_USER": "Details about the user account",
 	"EDIT_PROFILE": "Edit Profile",
 	"ENGLISH": "English",
 	"LOGIN": "Log-in",
 	"LOGOUT": "Log-out",
+	"NONE": "None",
 	"PRIVACY_POLICY": "Privacy Policy",
 	"REGISTER": "Register",
+	"ROLE": "Role",
+	"SELLER": "Seller",
 	"TERMS_OF_SERVICE": "Terms of Service",
+	"USERNAME": "Username",
+	"USER_INFORMATION": "User Information",
 	"VIETNAMESE": "Vietnamese"
 }

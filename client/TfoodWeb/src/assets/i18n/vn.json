@@ -1,12 +1,19 @@
 {
 	"ALL_RIGHTS_RESERVED": "Bảo lưu mọi quyền",
+	"BUYER": "Người mua",
 	"CART": "Giỏ hàng",
+	"DETAIL_ABOUT_USER": "Chi tiết về tài khoản người dùng",
 	"EDIT_PROFILE": "Chỉnh sửa thông tin",
 	"ENGLISH": "Tiếng Anh",
 	"LOGIN": "Đăng nhập",
 	"LOGOUT": "Đăng xuất",
+	"NONE": "Không có",
 	"PRIVACY_POLICY": "Chính sách bảo mật",
 	"REGISTER": "Đăng ký",
+	"ROLE": "Loại tài khoản",
+	"SELLER": "Người bán",
 	"TERMS_OF_SERVICE": "Điều khoản dịch vụ",
+	"USERNAME": "Tên người dùng",
+	"USER_INFORMATION": "Thông tin người dùng",
 	"VIETNAMESE": "Tiếng Việt"
 }

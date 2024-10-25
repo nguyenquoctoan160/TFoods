@@ -14,6 +14,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MyinfoComponent } from './pages/myinfo/myinfo.component';
 import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AvatarUploadDialogComponent } from './components/avatar-upload-dialog/avatar-upload-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,12 +30,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    MyinfoComponent
+    MyinfoComponent,
+    AvatarUploadDialogComponent
   ],
   imports: [
     ReactiveFormsModule,
     BrowserModule,
+    MatDialogModule,
     AppRoutingModule,
+    ImageCropperModule,
     HttpClientModule,
     FormsModule,
     TranslateModule.forRoot({
@@ -40,7 +47,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

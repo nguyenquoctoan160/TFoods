@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
@@ -14,7 +15,7 @@ export class HeaderComponent {
   userName = '';
   userAvatar = '';
   private loginSubscription: Subscription = new Subscription();
-  constructor(private authService: AuthenticationService, public translate: TranslateService, private cookieService: CookieService) { }
+  constructor(private router: Router, private authService: AuthenticationService, public translate: TranslateService, private cookieService: CookieService) { }
 
   ngOnInit(): void {
     this.reloadUserData();
