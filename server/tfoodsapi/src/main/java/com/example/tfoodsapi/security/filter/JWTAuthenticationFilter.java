@@ -36,7 +36,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
             if (userId != null) {
                 // Tạo CustomAuthenticationToken
-                System.out.println(userId);
+
                 CustomAuthenticationToken authentication = new CustomAuthenticationToken(token, userId, null, null,
                         Role.NONE);
                 // Lưu vào SecurityContextHolder

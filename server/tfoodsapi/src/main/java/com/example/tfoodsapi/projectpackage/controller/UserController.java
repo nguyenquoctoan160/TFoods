@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.tfoodsapi.projectpackage.DTOModel.UserLoginRequest;
 import com.example.tfoodsapi.projectpackage.DTOModel.UserRegistrationRequest;
+import com.example.tfoodsapi.projectpackage.model.Callback;
 import com.example.tfoodsapi.projectpackage.model.User;
 import com.example.tfoodsapi.projectpackage.projectenum.Role;
 import com.example.tfoodsapi.projectpackage.service.MinioService;
@@ -28,6 +30,7 @@ import com.example.tfoodsapi.security.authentication.CustomAuthenticationToken;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/users")
@@ -86,7 +89,7 @@ public class UserController {
 
             response.put("token", token);
             response.put("username", user.getUsername());
-            response.put("imgUrl", user.getAvatarUrl());
+            response.put("id", Integer.toString(user.getUserId()));
             // Tạo đối tượng AuthenticationToken
             CustomAuthenticationToken authentication = new CustomAuthenticationToken(
                     user.getUsername(), null, null, user.getUserId(), user.getRole());
@@ -102,14 +105,12 @@ public class UserController {
     }
 
     @GetMapping("/myinfo")
-
     public ResponseEntity<User> getUserInfomation() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication instanceof CustomAuthenticationToken) {
                 CustomAuthenticationToken customAuth = (CustomAuthenticationToken) authentication;
                 Integer userId = customAuth.getUserId();
-                System.err.println("User ID from SecurityContext: " + userId);
 
                 if (userId == null) {
                     return ResponseEntity.badRequest().body(null);
@@ -127,21 +128,52 @@ public class UserController {
         }
     }
 
+    @GetMapping("/avatar/{id}")
+    public ResponseEntity<byte[]> getUserAvatar(@PathVariable Integer id) {
+        try {
+            String avatarUrl = userService.getUserById(id).getAvatarUrl();
+            String fileName = avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1); // Extract filename from URL
+            byte[] fileContent = minioService.getFile(fileName);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG) // Adjust based on the file type, e.g., IMAGE_PNG
+                    .body(fileContent);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @PostMapping("/avatar")
     public ResponseEntity<String> uploadAvatar(@RequestParam("file") MultipartFile file) {
         try {
-            // Lấy thông tin người dùng từ SecurityContextHolder
+
+            if (file.getSize() > 104_857_600) { // 100MB in bytes
+                return ResponseEntity.status(400).body("File size exceeds 100MB limit");
+            }
+
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                return ResponseEntity.status(400).body("File must be an image");
+            }
+
             CustomAuthenticationToken authentication = (CustomAuthenticationToken) SecurityContextHolder.getContext()
                     .getAuthentication();
             Integer userId = authentication.getUserId(); // Lấy ID người dùng từ token
 
             // Upload file lên MinIO và nhận URL của ảnh đại diện
-            String avatarUrl = minioService.uploadFile(file);
+            Callback<String> avatarUrl = minioService.uploadFile(file, "avatar_" + userId);
 
-            // Cập nhật avatar URL trong model User
-            userService.setNewAvatar(userId, avatarUrl);
-            return ResponseEntity.ok("Avatar uploaded successfully");
+            if (avatarUrl.isError()) {
+
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Error uploading avatar: " + avatarUrl.getError());
+            } else {
+
+                userService.setNewAvatar(userId, avatarUrl.getData());
+                return ResponseEntity.ok("Avatar uploaded successfully");
+            }
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             return ResponseEntity.status(500).body("Error uploading avatar: " + e.getMessage());
         }
     }

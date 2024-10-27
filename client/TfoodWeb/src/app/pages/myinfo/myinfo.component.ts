@@ -6,6 +6,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AvatarUploadDialogComponent } from 'src/app/components/avatar-upload-dialog/avatar-upload-dialog.component';
+import { environment } from 'src/app/environment/environment';
 @Component({
   selector: 'app-myinfo',
   templateUrl: './myinfo.component.html',
@@ -13,7 +14,8 @@ import { AvatarUploadDialogComponent } from 'src/app/components/avatar-upload-di
 })
 export class MyinfoComponent {
   user: User = new User();
-
+  ImageUrl: string = '';
+  baseUrl = environment.baseUrl;
   constructor(private userService: UserService, public translate: TranslateService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -25,7 +27,8 @@ export class MyinfoComponent {
     this.userService.getUserInfo().subscribe({
       next: (data) => {
         this.user = data;
-
+        console.log(data);
+        this.ImageUrl = `${this.baseUrl}/users/avatar/${data.userId}` || 'default-avatar.png';
       },
       error: (err) => {
         console.error('Failed to load user information', err);
@@ -48,15 +51,5 @@ export class MyinfoComponent {
     });
   }
 
-  // Lưu thông tin người dùng thông qua UserService
-  // saveUserInfo(): void {
-  //   this.userService.saveUserInfo(this.user).subscribe({
-  //     next: () => {
-  //       alert('User information saved successfully.');
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to save user information', err);
-  //     }
-  //   });
-  // }
+
 }

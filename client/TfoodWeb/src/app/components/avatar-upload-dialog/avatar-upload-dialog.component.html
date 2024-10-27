@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Upload and Edit Avatar</h2>
+<h2 mat-dialog-title>{{"UPLOAD_AND_EDIT_AVATAR"|translate}}</h2>
 <div mat-dialog-content class="space-y-4">
     <!-- File Input Trigger -->
     <input type="file" (change)="onFileSelected($event)" accept="image/*" />
@@ -8,8 +8,8 @@
         (imageCropped)="onImageCropped($event)">
     </image-cropper>
 </div>
-
+<div *ngIf="isLoading" class="loading-indicator">{{"LOADING"|translate}}...</div>
 <div mat-dialog-actions class="justify-end space-x-2">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="primary" (click)="saveAvatar()">Save</button>
+    <button mat-button mat-dialog-close>{{"CANCEL"|translate}}</button>
+    <button mat-raised-button color="primary" (click)="saveAvatar()">{{"SAVE"|translate}}</button>
 </div>

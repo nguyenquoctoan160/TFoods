@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/app/environment/environment';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -14,6 +15,8 @@ export class HeaderComponent {
   isLoggedIn = false;
   userName = '';
   userAvatar = '';
+  userid = '';
+  private baseUrl = environment.baseUrl;
   private loginSubscription: Subscription = new Subscription();
   constructor(private router: Router, private authService: AuthenticationService, public translate: TranslateService, private cookieService: CookieService) { }
 
@@ -30,7 +33,8 @@ export class HeaderComponent {
     if (token) {
       this.isLoggedIn = true;
       this.userName = localStorage.getItem('username') || 'Guest';
-      this.userAvatar = localStorage.getItem('imgUrl') || 'default-avatar.png';
+      this.userid = localStorage.getItem('id') || '';
+      this.userAvatar = `${this.baseUrl}/users/avatar/${this.userid}` || 'default-avatar.png';
     } else {
       this.isLoggedIn = false;
       this.userName = 'Guest';
