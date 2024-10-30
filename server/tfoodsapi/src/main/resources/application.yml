@@ -15,10 +15,16 @@ spring:
       access-key: minioadmin
       secret-key: minioadmin
       bucket-name: tfoodbucket
+
+  cache:
+    type: redis
 security:
   jwt:
     secret: "thisisaverylongsecretkeythatneedstobesecure!"
 server:
   port: 3040
+redis:
+  port: 6379
+  host: localhost
 
 

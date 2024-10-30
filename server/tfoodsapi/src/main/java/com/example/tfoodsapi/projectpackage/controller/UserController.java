@@ -85,7 +85,7 @@ public class UserController {
         User user = userService.authenticateUser(loginRequest);
         Map<String, String> response = new HashMap<>();
         if (user != null) {
-            String token = jwtUtil.generateToken(user.getUserId());
+            String token = jwtUtil.generateToken(user.getUserId(), user.getRole());
 
             response.put("token", token);
             response.put("username", user.getUsername());

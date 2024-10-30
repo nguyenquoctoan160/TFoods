@@ -20,6 +20,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
     private User seller;

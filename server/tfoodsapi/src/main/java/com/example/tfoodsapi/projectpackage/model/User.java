@@ -23,6 +23,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Column(unique = true, nullable = false, length = 50)
     private String username;
 
@@ -46,7 +50,7 @@ public class User {
         createdAt = new Timestamp(System.currentTimeMillis()); // Initialize createdAt
     }
 
-    public Integer getUserId() {
+    public Integer getId() {
         return id;
     }
 
@@ -96,6 +100,12 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", email=" + email + ", role=" + role + ", createdAt="
+                + createdAt + ", avatarUrl=" + avatarUrl + "]";
     }
 
     // Getters and Setters

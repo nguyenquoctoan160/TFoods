@@ -1,7 +1,6 @@
 package com.example.tfoodsapi.security.filter;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,12 +32,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         if (authorizationHeader != null) {
             String token = authorizationHeader;
             Integer userId = jwtUtil.extractToID(token);
-
+            Role role = jwtUtil.extractRole(token);
             if (userId != null) {
                 // Tạo CustomAuthenticationToken
 
                 CustomAuthenticationToken authentication = new CustomAuthenticationToken(token, userId, null, null,
-                        Role.NONE);
+                        role);
                 // Lưu vào SecurityContextHolder
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

@@ -17,6 +17,14 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
