@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+
 import org.springframework.stereotype.Component;
 
 @SpringBootApplication
@@ -25,6 +26,7 @@ public class TfoodsapiApplication {
 			if (context instanceof ServletWebServerApplicationContext webServerAppContext) {
 				int port = webServerAppContext.getWebServer().getPort();
 				System.out.println("Application is running on port: " + port);
+
 			}
 		}
 

@@ -27,8 +27,8 @@ export class MyinfoComponent {
     this.userService.getUserInfo().subscribe({
       next: (data) => {
         this.user = data;
-        console.log(data);
-        this.ImageUrl = `${this.baseUrl}/users/avatar/${data.userId}` || 'default-avatar.png';
+
+        this.ImageUrl = `${this.baseUrl}/users/avatar/${this.user.id}` || 'default-avatar.png';
       },
       error: (err) => {
         console.error('Failed to load user information', err);
