@@ -85,14 +85,14 @@ public class UserController {
         User user = userService.authenticateUser(loginRequest);
         Map<String, String> response = new HashMap<>();
         if (user != null) {
-            String token = jwtUtil.generateToken(user.getUserId(), user.getRole());
+            String token = jwtUtil.generateToken(user.getId(), user.getRole());
 
             response.put("token", token);
             response.put("username", user.getUsername());
-            response.put("id", Integer.toString(user.getUserId()));
+            response.put("id", Integer.toString(user.getId()));
             // Tạo đối tượng AuthenticationToken
             CustomAuthenticationToken authentication = new CustomAuthenticationToken(
-                    user.getUsername(), null, null, user.getUserId(), user.getRole());
+                    user.getUsername(), null, null, user.getId(), user.getRole());
 
             // Lưu vào SecurityContextHolder
             SecurityContextHolder.getContext().setAuthentication(authentication);
