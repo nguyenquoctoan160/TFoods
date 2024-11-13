@@ -40,8 +40,6 @@ public class ProductService {
             product.setDescription(updatedProduct.getDescription());
         if (updatedProduct.getPrice() != null)
             product.setPrice(updatedProduct.getPrice());
-        if (updatedProduct.getStock() != null)
-            product.setStock(updatedProduct.getStock());
         if (updatedProduct.getCategory() != null)
             product.setCategory(updatedProduct.getCategory());
         return productRepository.save(product);

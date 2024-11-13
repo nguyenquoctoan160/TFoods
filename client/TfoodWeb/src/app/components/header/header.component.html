@@ -1,43 +1,49 @@
-<header class="bg-gray-800 text-white py-4">
+<header class="bg-gray-800 text-white py-4 shadow-lg">
     <div class="container mx-auto flex justify-between items-center">
         <!-- Logo -->
-        <div class="text-2xl font-bold">
-            <a routerLink="/">TFoods</a>
+        <div class="text-3xl font-extrabold">
+            <a routerLink="/" class="hover:text-yellow-400 transition duration-300">TFoods</a>
         </div>
 
-        <nav>
-            <button class="bg-gray-800 hover:bg-gray-900" (click)="switchLanguage('en')">{{'ENGLISH'|
-                translate}}</button>
-            <button class="bg-gray-800 hover:bg-gray-900"
+        <!-- Navigation -->
+        <nav class="flex space-x-4">
+            <button class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded transition duration-300"
+                (click)="switchLanguage('en')">{{'ENGLISH'|translate}}</button>
+            <button class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded transition duration-300"
                 (click)="switchLanguage('vn')">{{'VIETNAMESE'|translate}}</button>
         </nav>
 
         <!-- User info -->
-        <div class="flex items-center">
+        <div class="flex items-center space-x-4">
             <ng-container *ngIf="isLoggedIn; else loggedOut">
                 <!-- Hiển thị tên người dùng và ảnh đại diện nếu đã đăng nhập -->
                 <div class="flex items-center space-x-2">
-                    <img [src]="userAvatar" alt="avatar" class="w-8 h-8 rounded-full" />
-                    <span>{{ userName }}</span>
+                    <img [src]="userAvatar" alt="avatar" class="w-10 h-10 rounded-full border-2 border-yellow-400" />
+                    <span class="font-semibold">{{ userName }}</span>
                 </div>
                 <!-- Đăng xuất và Chỉnh sửa thông tin cá nhân -->
-                <button (click)="logout()" class="ml-4 bg-red-500 px-3 py-1 rounded">{{"LOGOUT"|translate}}</button>
-                <a routerLink="/profile" class="ml-2 bg-blue-500 px-3 py-1 rounded">{{"EDIT_PROFILE"|translate}}</a>
+                <button (click)="logout()"
+                    class="ml-4 bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition duration-300">{{"LOGOUT"|translate}}</button>
+                <a routerLink="/profile"
+                    class="ml-2 bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition duration-300">{{"EDIT_PROFILE"|translate}}</a>
             </ng-container>
 
             <!-- Ngăn hiển thị nếu chưa đăng nhập -->
             <ng-template #loggedOut>
-                <a routerLink="/login" class="ml-2 bg-green-500 px-3 py-1 rounded">{{"LOGIN"|translate}}</a>
-                <a routerLink="/register" class="ml-2 bg-blue-500 px-3 py-1 rounded">{{"REGISTER"|translate}}</a>
+                <a routerLink="/login"
+                    class="ml-2 bg-green-500 hover:bg-green-600 px-3 py-1 rounded transition duration-300">{{"LOGIN"|translate}}</a>
+                <a routerLink="/register"
+                    class="ml-2 bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition duration-300">{{"REGISTER"|translate}}</a>
             </ng-template>
 
             <!-- Giỏ hàng -->
-            <a routerLink="/cart" class="ml-4 relative">
+            <a routerLink="/cart" class="ml-4 relative hover:text-yellow-400 transition duration-300">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 7m1.6 6l1.5 7h8l1.5-7m-10 0h10"></path>
                 </svg>
+                <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">3</span>
             </a>
         </div>
     </div>

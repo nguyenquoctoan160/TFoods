@@ -2,25 +2,22 @@ package com.example.tfoodsapi.projectpackage.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.tfoodsapi.projectpackage.DTOModel.UserLoginRequest;
 import com.example.tfoodsapi.projectpackage.model.User;
 import com.example.tfoodsapi.projectpackage.repository.UserRepository;
 
-import jakarta.annotation.Resource;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UserService {
     @Autowired
-    private PasswordEncoder passwordEncoder; // Đảm bảo rằng đây là biến đú
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
-    @Resource
-    private RedisTemplate<String, User> redisTemplate;
+    @Autowired
+    private RedisService redisService;
 
     public User createUser(User user) {
         // Thực hiện kiểm tra và mã hóa mật khẩu nếu cần
@@ -41,12 +38,9 @@ public class UserService {
     }
 
     public User getUserById(Integer id) {
-        // Tìm người dùng trong Redis trước
-        String redisKey = "user:" + id;
-        User user = redisTemplate.opsForValue().get(redisKey);
 
+        User user = redisService.getUserFromIDKey(id);
         if (user != null) {
-            System.out.println(user.toString());
             return user; // Trả về người dùng từ cache
         }
 
@@ -55,18 +49,17 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Seller not found with id: " + id));
 
         // Lưu người dùng vào cache
-        redisTemplate.opsForValue().set(redisKey, user);
+        redisService.setUserFromIDKey(id, user);
 
         return user;
     }
 
     public User findByUsername(String name) {
         // Tìm người dùng trong Redis trước
-        User user = redisTemplate.opsForValue().get("user:" + name);
+        User user = redisService.getUserFromNameKey(name);
 
         if (user != null) {
-
-            return user; // Trả về người dùng từ cache
+            return user;
         }
 
         // Nếu không tìm thấy trong cache, tìm từ repository
@@ -74,7 +67,7 @@ public class UserService {
 
         // Lưu người dùng vào cache
         if (user != null) {
-            redisTemplate.opsForValue().set("user:" + name, user);
+            redisService.setUserFromNameKey(name, user);
         }
 
         return user;
@@ -85,10 +78,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Seller not found with id: " + id));
         user.setAvatarUrl(avatar);
         userRepository.save(user);
-
-        // Cập nhật cache
-        redisTemplate.opsForValue().set("user:" + id, user);
-        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
+        redisService.setUserFromIDKey(id, user);
     }
 
 }

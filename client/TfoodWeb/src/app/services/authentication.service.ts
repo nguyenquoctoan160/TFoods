@@ -36,7 +36,7 @@ export class AuthenticationService {
         }
       },
       error: (err) => {
-        alert(err.error?.message || 'An error occurred');
+        alert(err.error?.error || 'An error occurred');
       }
     });
   }
