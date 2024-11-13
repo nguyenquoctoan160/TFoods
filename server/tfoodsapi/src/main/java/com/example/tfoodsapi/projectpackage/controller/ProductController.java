@@ -100,7 +100,6 @@ public class ProductController {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
-        product.setStock(productDTO.getStock());
 
         // Lấy Category từ service, ném ngoại lệ nếu không tìm thấy
         Category category = categoryService.getCategoryById(productDTO.getCategoryId());

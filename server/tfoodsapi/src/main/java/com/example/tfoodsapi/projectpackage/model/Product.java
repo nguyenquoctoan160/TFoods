@@ -28,12 +28,18 @@ public class Product {
         return id;
     }
 
+    @Column(nullable = false)
+    private Integer shelfLifeDays;
+
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
     private User seller;
 
     @Column(nullable = false, length = 100)
     private String name;
+
+    @Column(nullable = true)
+    private String image;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -44,9 +50,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
-    @Column(nullable = false)
-    private Integer stock;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
@@ -100,20 +103,28 @@ public class Product {
         this.category = category;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
     public Timestamp getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Integer getShelfLifeDays() {
+        return shelfLifeDays;
+    }
+
+    public void setShelfLifeDays(Integer shelfLifeDays) {
+        this.shelfLifeDays = shelfLifeDays;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     // Getters and Setters
