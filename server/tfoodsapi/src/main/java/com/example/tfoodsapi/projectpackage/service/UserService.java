@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.tfoodsapi.projectpackage.DTOModel.UserLoginRequest;
 import com.example.tfoodsapi.projectpackage.model.User;
+import com.example.tfoodsapi.projectpackage.projectenum.Role;
 import com.example.tfoodsapi.projectpackage.repository.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -79,6 +80,12 @@ public class UserService {
         user.setAvatarUrl(avatar);
         userRepository.save(user);
         redisService.setUserFromIDKey(id, user);
+    }
+
+    public boolean isSeller(Integer userId) {
+        User user = getUserById(userId);
+
+        return user.getRole() == Role.SELLER;
     }
 
 }

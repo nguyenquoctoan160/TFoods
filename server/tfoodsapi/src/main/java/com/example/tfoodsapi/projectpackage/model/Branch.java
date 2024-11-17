@@ -17,7 +17,7 @@ public class Branch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String name;
 
     @Column(nullable = false, length = 255)
@@ -31,6 +31,9 @@ public class Branch {
         this.name = name;
         this.address = address;
         this.seller = seller;
+    }
+
+    public Branch() {
     }
 
     public Integer getId() {
@@ -63,6 +66,10 @@ public class Branch {
 
     public void setSeller(User seller) {
         this.seller = seller;
+    }
+
+    public Integer getOwnerId() {
+        return this.seller.getId();
     }
 
     // Getters and Setters

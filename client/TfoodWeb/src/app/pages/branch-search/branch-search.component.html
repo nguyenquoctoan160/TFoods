@@ -1,0 +1,32 @@
+<div class="p-8">
+    <h1 class="text-2xl font-bold mb-4">Search Branches</h1>
+    <div class="flex space-x-4 mb-4">
+        <input type="text" class="border p-2 rounded w-full" placeholder="Search by name" [(ngModel)]="name">
+        <input type="text" class="border p-2 rounded w-full" placeholder="Search by address" [(ngModel)]="address">
+        <button (click)="searchBranches()" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+    </div>
+
+    <table class="w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="p-2 border">ID</th>
+                <th class="p-2 border">Name</th>
+                <th class="p-2 border">Address</th>
+                <th class="p-2 border">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let branch of branches">
+                <td class="p-2 border">{{ branch.id }}</td>
+                <td class="p-2 border">{{ branch.name }}</td>
+                <td class="p-2 border">{{ branch.address }}</td>
+                <td class="p-2 border">
+                    <button (click)="viewBranch(branch.id)" class="text-blue-500">View</button>
+                    <button (click)="editBranch(branch.id)" class="text-green-500 ml-2">Edit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

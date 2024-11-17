@@ -32,7 +32,7 @@ public class Product {
     private Integer shelfLifeDays;
 
     @ManyToOne
-    @JoinColumn(name = "seller_id", nullable = false)
+    @JoinColumn(name = "seller_id", nullable = false, unique = true)
     private User seller;
 
     @Column(nullable = false, length = 100)

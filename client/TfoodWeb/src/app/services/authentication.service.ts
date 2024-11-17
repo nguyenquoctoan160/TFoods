@@ -26,9 +26,9 @@ export class AuthenticationService {
     this.http.post<Loginresponse>(`${this.baseUrl}/users/login`, user).subscribe({
       next: (response) => {
         console.log(response);
-        const { token, username, id } = response; // Destructure the response
+        const { token, username, id, role } = response; // Destructure the response
         if (token && username) {
-          this.setSession(token, username, id || "");
+          this.setSession(token, username, id || "", role || "");
           this.router.navigate(['/']); // Navigate to the home page
         } else {
           console.error('Token not found in response');
@@ -46,11 +46,11 @@ export class AuthenticationService {
     this.router.navigate(['/login']); // Navigate to the login page
   }
 
-  private setSession(token: string, username: string, userid: string): void {
+  private setSession(token: string, username: string, userid: string, role: string): void {
     this.cookieService.set('JWtoken', token, 7, '/');
     localStorage.setItem('username', username);
     localStorage.setItem('id', userid)
-
+    localStorage.setItem('role', role);
     this.isLoggedInSubject.next(true); // Update login status
   }
 
@@ -58,6 +58,7 @@ export class AuthenticationService {
     this.cookieService.delete('JWtoken', '/');
     localStorage.removeItem('username');
     localStorage.removeItem('id');
+    localStorage.removeItem("role");
     this.isLoggedInSubject.next(false); // Update login status
   }
 }
