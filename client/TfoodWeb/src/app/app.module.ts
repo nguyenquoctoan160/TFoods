@@ -18,6 +18,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AvatarUploadDialogComponent } from './components/avatar-upload-dialog/avatar-upload-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { BranchSearchComponent } from './pages/branch-search/branch-search.component';
+import { BranchManagementComponent } from './pages/branch-management/branch-management.component';
+import { NewBranchComponent } from './pages/new-branch/new-branch.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { EditBranchDialogComponent } from './components/edit-branch-dialog/edit-branch-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,7 +41,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     FooterComponent,
     MyinfoComponent,
-    AvatarUploadDialogComponent
+    AvatarUploadDialogComponent,
+    BranchSearchComponent,
+    BranchManagementComponent,
+    NewBranchComponent,
+    ConfirmationDialogComponent,
+    EditBranchDialogComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -40,7 +55,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     ImageCropperModule,
     HttpClientModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    NgxPaginationModule,
     FormsModule,
+    MatSnackBarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

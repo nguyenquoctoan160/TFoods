@@ -26,7 +26,7 @@ public class Category {
         return id;
     }
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String name;
 
     @Column(name = "created_at", nullable = false)

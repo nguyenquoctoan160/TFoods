@@ -90,6 +90,7 @@ public class UserController {
             response.put("token", token);
             response.put("username", user.getUsername());
             response.put("id", Integer.toString(user.getId()));
+            response.put("role", user.getRole().toString());
             // Tạo đối tượng AuthenticationToken
             CustomAuthenticationToken authentication = new CustomAuthenticationToken(
                     user.getUsername(), null, null, user.getId(), user.getRole());
@@ -108,6 +109,7 @@ public class UserController {
     public ResponseEntity<User> getUserInfomation() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
             if (authentication instanceof CustomAuthenticationToken) {
                 CustomAuthenticationToken customAuth = (CustomAuthenticationToken) authentication;
                 Integer userId = customAuth.getUserId();
@@ -123,7 +125,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
         } catch (Exception e) {
-            System.out.println(e);
+
             return ResponseEntity.status(500).body(null);
         }
     }

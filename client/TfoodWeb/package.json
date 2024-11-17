@@ -25,6 +25,7 @@
     "ngx-cookie-service": "^15.0.0",
     "ngx-image-compress": "^18.1.5",
     "ngx-image-cropper": "^6.1.0",
+    "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
     "tfood-web": "file:",
     "tslib": "^2.3.0",

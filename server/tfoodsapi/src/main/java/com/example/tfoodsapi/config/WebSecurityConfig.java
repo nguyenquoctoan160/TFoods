@@ -24,7 +24,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/users/login", "/api/users/register").permitAll()
+                        .requestMatchers(
+                                "/api/users/login",
+                                "/api/users/register",
+                                "/api/branches/search",
+                                "/api/branches/{id}")
+                        .permitAll()
                         .anyRequest().authenticated().and()
                         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class));
         return http.build();

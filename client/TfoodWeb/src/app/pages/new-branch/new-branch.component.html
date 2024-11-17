@@ -1,0 +1,17 @@
+<div class="p-8">
+    <h1 class="text-2xl font-bold mb-4">Add New Branch</h1>
+
+    <form (ngSubmit)="addBranch()" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium">Branch Name</label>
+            <input type="text" [(ngModel)]="branch.name" name="name" class="border p-2 rounded w-full" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium">Branch Address</label>
+            <input type="text" [(ngModel)]="branch.address" name="address" class="border p-2 rounded w-full" required>
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Add Branch</button>
+    </form>
+</div>

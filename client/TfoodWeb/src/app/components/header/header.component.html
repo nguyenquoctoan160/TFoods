@@ -14,18 +14,23 @@
         </nav>
 
         <!-- User info -->
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4 relative">
             <ng-container *ngIf="isLoggedIn; else loggedOut">
-                <!-- Hiển thị tên người dùng và ảnh đại diện nếu đã đăng nhập -->
-                <div class="flex items-center space-x-2">
+
+                <div class="flex items-center space-x-2 cursor-pointer" (click)="toggleUserMenu()">
                     <img [src]="userAvatar" alt="avatar" class="w-10 h-10 rounded-full border-2 border-yellow-400" />
                     <span class="font-semibold">{{ userName }}</span>
                 </div>
-                <!-- Đăng xuất và Chỉnh sửa thông tin cá nhân -->
-                <button (click)="logout()"
-                    class="ml-4 bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition duration-300">{{"LOGOUT"|translate}}</button>
-                <a routerLink="/profile"
-                    class="ml-2 bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition duration-300">{{"EDIT_PROFILE"|translate}}</a>
+
+                <div *ngIf="userMenuOpen"
+                    class="absolute top-8 right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg py-2">
+                    <a routerLink="/profile" (click)="toggleUserMenu()"
+                        class="block px-4 py-2 hover:bg-gray-100">{{"EDIT_PROFILE"|translate}}</a>
+                    <a routerLink="/branches/my-branches" (click)="toggleUserMenu()" *ngIf="role=='SELLER'"
+                        class="block px-4 py-2 hover:bg-gray-100">{{"MY_STORE"|translate}}</a>
+                    <button (click)="logout()"
+                        class="block w-full text-left px-4 py-2 hover:bg-gray-100">{{"LOGOUT"|translate}}</button>
+                </div>
             </ng-container>
 
             <!-- Ngăn hiển thị nếu chưa đăng nhập -->

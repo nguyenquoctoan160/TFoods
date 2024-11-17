@@ -33,4 +33,12 @@ public class CustomAuthenticationToken extends AbstractAuthenticationToken {
     public Object getPrincipal() {
         return userId; // hoặc tên người dùng nếu bạn có
     }
+
+    @Override
+    public String toString() {
+        return "CustomAuthenticationToken [\\userId=" + userId + ",\\ token=" + token + ",\\ getUserId()=" + getUserId()
+                + ",\\ getName()=" + getName() + ",\\ hashCode()=" + hashCode() + ",\\ isAuthenticated()="
+                + isAuthenticated()
+                + "\\]";
+    }
 }
