@@ -25,13 +25,12 @@ export class AuthenticationService {
   login(user: RegisterUser): void {
     this.http.post<Loginresponse>(`${this.baseUrl}/users/login`, user).subscribe({
       next: (response) => {
-        console.log(response);
-        const { token, username, id, role } = response; // Destructure the response
+
+        const { token, username, id, role, admin } = response; // Destructure the response
         if (token && username) {
-          this.setSession(token, username, id || "", role || "");
+          this.setSession(token, username, id || "", role || "", admin || "false");
           this.router.navigate(['/']); // Navigate to the home page
         } else {
-          console.error('Token not found in response');
           alert('Login failed. Please try again.');
         }
       },
@@ -46,11 +45,12 @@ export class AuthenticationService {
     this.router.navigate(['/login']); // Navigate to the login page
   }
 
-  private setSession(token: string, username: string, userid: string, role: string): void {
+  private setSession(token: string, username: string, userid: string, role: string, admin: string): void {
     this.cookieService.set('JWtoken', token, 7, '/');
     localStorage.setItem('username', username);
     localStorage.setItem('id', userid)
     localStorage.setItem('role', role);
+    localStorage.setItem('admin', admin);
     this.isLoggedInSubject.next(true); // Update login status
   }
 
@@ -59,6 +59,7 @@ export class AuthenticationService {
     localStorage.removeItem('username');
     localStorage.removeItem('id');
     localStorage.removeItem("role");
+    localStorage.removeItem('admin');
     this.isLoggedInSubject.next(false); // Update login status
   }
 }

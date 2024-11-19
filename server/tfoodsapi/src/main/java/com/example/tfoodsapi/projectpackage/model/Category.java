@@ -32,6 +32,13 @@ public class Category {
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
+
     public Integer getCategoryId() {
         return id;
     }

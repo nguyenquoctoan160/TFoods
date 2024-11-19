@@ -17,6 +17,7 @@ export class HeaderComponent {
   userAvatar = '';
   userid = '';
   role = '';
+  admin = false;
   private baseUrl = environment.baseUrl;
   private loginSubscription: Subscription = new Subscription();
   constructor(private router: Router, private authService: AuthenticationService, public translate: TranslateService, private cookieService: CookieService) { }
@@ -41,6 +42,7 @@ export class HeaderComponent {
       this.userid = localStorage.getItem('id') || '';
       this.role = localStorage.getItem('role') || '';
       this.userAvatar = `${this.baseUrl}/users/avatar/${this.userid}` || 'default-avatar.png';
+      this.admin = localStorage.getItem('admin') === 'true' ? true : false;
     } else {
       this.isLoggedIn = false;
       this.userName = 'Guest';

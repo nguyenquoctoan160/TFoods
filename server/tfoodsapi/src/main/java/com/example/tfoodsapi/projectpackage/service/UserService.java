@@ -88,4 +88,10 @@ public class UserService {
         return user.getRole() == Role.SELLER;
     }
 
+    public boolean isAdmin(Integer userId) {
+        User user = getUserById(userId);
+
+        return user.isAdmin();
+    }
+
 }
