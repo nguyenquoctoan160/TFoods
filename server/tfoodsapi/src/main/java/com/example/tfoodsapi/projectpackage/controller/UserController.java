@@ -91,6 +91,7 @@ public class UserController {
             response.put("username", user.getUsername());
             response.put("id", Integer.toString(user.getId()));
             response.put("role", user.getRole().toString());
+            response.put("admin", user.isAdminToString());
             // Tạo đối tượng AuthenticationToken
             CustomAuthenticationToken authentication = new CustomAuthenticationToken(
                     user.getUsername(), null, null, user.getId(), user.getRole());

@@ -45,6 +45,24 @@ public class User {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
+    @Column(name = "isAdmin", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean isAdmin = false;
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public String isAdminToString() {
+        if (isAdmin)
+            return "true";
+        else
+            return "false";
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Timestamp(System.currentTimeMillis()); // Initialize createdAt
