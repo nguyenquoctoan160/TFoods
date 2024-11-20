@@ -33,51 +33,49 @@ public class CategoryController {
     private UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<Category> createCategory(@RequestBody @Valid String categoryname) {
+    public ResponseEntity<String> createCategory(@RequestBody @Valid String categoryname) {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
 
         Integer userId = getAuthenticatedUserId(authentication);
         if (!userService.isAdmin(userId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not Administrator");
         }
 
-        Category createdCategory = categoryService.createCategory(categoryname);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+        categoryService.createCategory(categoryname);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully");
     }
 
-    // Sửa Category
-    @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Integer id,
+    @PostMapping("/update/{id}")
+    public ResponseEntity<String> updateCategory(@PathVariable Integer id,
             @RequestBody @Valid String categoryname) {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         // Assuming the UserDetails contains the user ID or a method to retrieve it.
         Integer userId = getAuthenticatedUserId(authentication); // Implement this method accordingly
         if (!userService.isAdmin(userId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not Administrator");
         }
 
-        Category updatedCategory = categoryService.updateCategory(id, categoryname);
-        return ResponseEntity.ok(updatedCategory);
+        categoryService.updateCategory(id, categoryname);
+        return ResponseEntity.ok("Successfully");
     }
 
-    // Xóa Category
-    @DeleteMapping("delete/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Integer id) {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
-        // Assuming the UserDetails contains the user ID or a method to retrieve it.
-        Integer userId = getAuthenticatedUserId(authentication); // Implement this method accordingly
+
+        Integer userId = getAuthenticatedUserId(authentication);
         if (!userService.isAdmin(userId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not Administrator");
         }
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Successfully");
     }
 
     // Lấy danh sách Category có phân trang
-    @GetMapping
+    @GetMapping("/get")
     public ResponseEntity<Page<Category>> getCategories(
             @RequestParam(defaultValue = "0") int page,
 

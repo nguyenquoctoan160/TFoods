@@ -21,20 +21,20 @@ export class CategoryService {
     return this.http.get<Page<Category>>(`${this.baseUrl}/search`, { params, withCredentials: true });
   }
 
-  createCategory(name: String): Observable<Category> {
-    return this.http.post<Category>(`${this.baseUrl}/add`, name, {
+  createCategory(name: String): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/add`, name, {
       withCredentials: true, responseType: 'text' as 'json'
     });
   }
 
-  updateCategory(id: number, name: String): Observable<Category> {
-    return this.http.put<Category>(`${this.baseUrl}/${id}`, name, {
+  updateCategory(id: number, name: String): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/update/${id}`, name, {
       withCredentials: true, responseType: 'text' as 'json'
     });
   }
 
   deleteCategory(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.baseUrl}/delete/${id}`, {
+    return this.http.post<string>(`${this.baseUrl}/delete/${id}`, null, {
       withCredentials: true, responseType: 'text' as 'json'
     });
   }

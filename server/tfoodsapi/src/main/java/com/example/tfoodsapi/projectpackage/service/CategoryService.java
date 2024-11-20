@@ -15,28 +15,54 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private RedisService redisService;
 
     public Category getCategoryById(Integer id) {
-        return categoryRepository.findById(id)
+        // Kiểm tra trong Redis trước
+        Category category = redisService.getCategoryFromID(id);
+        if (category != null) {
+            return category;
+        }
+
+        // Nếu không có trong Redis, lấy từ DB
+        category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+
+        // Lưu vào Redis
+        redisService.setCategoryFromID(category);
+        return category;
     }
 
-    public Category createCategory(String categoryname) {
-        Category category = new Category(categoryname);
-        return categoryRepository.save(category);
+    public Category createCategory(String categoryName) {
+        Category category = new Category(categoryName);
+        category = categoryRepository.save(category);
+
+        // Lưu vào Redis
+        redisService.setCategoryFromID(category);
+        return category;
     }
 
-    public Category updateCategory(Integer id, String categoryname) {
+    public Category updateCategory(Integer id, String categoryName) {
         Category existingCategory = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found with id " + id));
-        existingCategory.setName(categoryname);
-        return categoryRepository.save(existingCategory);
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+
+        existingCategory.setName(categoryName);
+        existingCategory = categoryRepository.save(existingCategory);
+
+        // Cập nhật vào Redis
+        redisService.setCategoryFromID(existingCategory);
+        return existingCategory;
     }
 
     public void deleteCategory(Integer id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found with id " + id));
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+
         categoryRepository.delete(category);
+
+        // Xóa khỏi Redis
+        redisService.deleteCategoryById(id);
     }
 
     public Page<Category> getCategories(int page, int size, String sortBy) {

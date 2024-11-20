@@ -76,7 +76,7 @@ public class UserController {
 
         // Gọi phương thức đăng ký người dùng
         userService.createUser(user);
-        return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     @PostMapping("/login")
