@@ -11,7 +11,7 @@ import { NewBranchComponent } from 'src/app/pages/new-branch/new-branch.componen
 import { BranchManagementComponent } from 'src/app/pages/branch-management/branch-management.component';
 import { sellerGuard } from 'src/app/security/seller.guard';
 import { adminGuard } from 'src/app/security/admin.guard';
-import { CategoryManagementComponent } from 'src/app/components/category-management/category-management.component';
+import { CategoryManagementComponent } from 'src/app/pages/category-management/category-management.component';
 import { NewCategoryComponent } from 'src/app/pages/new-category/new-category.component';
 
 

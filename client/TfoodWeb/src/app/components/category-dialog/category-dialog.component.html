@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>{{ 'EDIT_CATEGORY_TITLE' | translate }}</h2>
+
+<mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>{{ 'CATEGORY_NAME' | translate }}</mat-label>
+        <input matInput [(ngModel)]="category.name" placeholder="Enter category name">
+    </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button (click)="onCancel()">{{ 'CANCEL' | translate }}</button>
+    <button mat-button (click)="onSave()">{{ 'SAVE' | translate }}</button>
+</mat-dialog-actions>

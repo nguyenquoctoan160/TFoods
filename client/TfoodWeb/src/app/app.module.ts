@@ -30,7 +30,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { NewCategoryComponent } from 'src/app/pages/new-category/new-category.component';
-import { CategoryManagementComponent } from 'src/app/components/category-management/category-management.component';
+import { CategoryManagementComponent } from 'src/app/pages/category-management/category-management.component';
+import { CategoryDialogComponent } from 'src/app/components/category-dialog/category-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmationDialogComponent,
     EditBranchDialogComponent,
     CategoryManagementComponent,
-    NewCategoryComponent
+    NewCategoryComponent,
+    CategoryDialogComponent
   ],
   imports: [
     ReactiveFormsModule,

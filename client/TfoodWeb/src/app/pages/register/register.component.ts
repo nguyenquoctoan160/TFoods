@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -14,7 +16,8 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(6)]],
@@ -24,19 +27,36 @@ export class RegisterComponent {
     });
   }
 
-  onRegister() {
+  onRegister(): void {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
-        next: () => {
-          alert('User registered successfully!');
-          this.router.navigate(['/login']);
+        next: (response: any) => {
+
+
+          this.translate.get('USER_REGISTERED_SUCCESS').subscribe((msg) => {
+            alert(msg);
+            this.router.navigate(['/login']);
+          });
+
         },
-        error: (err) => {
-          console.log(err);
-          alert(err.error);
-        }
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.translate.get('USER_REGISTER_BAD_REQUEST').subscribe((msg) => {
+              alert(`${msg}: ${error.error}`);
+            });
+          } else if (error.status === 500) {
+            this.translate.get('USER_REGISTER_SERVER_ERROR').subscribe((msg) => {
+              alert(msg);
+            });
+          } else {
+            this.translate.get('USER_REGISTER_UNKNOWN_ERROR').subscribe((msg) => {
+              alert(`${msg}: ${error.message}`);
+            });
+          }
+        },
       });
     }
   }
+
 
 }

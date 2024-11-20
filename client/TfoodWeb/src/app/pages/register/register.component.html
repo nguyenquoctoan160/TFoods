@@ -1,38 +1,45 @@
 <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="max-w-md mx-auto mt-10 p-4 border rounded shadow-lg">
-    <h2 class="text-xl font-bold mb-4">Register</h2>
-    
-    <div>
-      <label for="username" class="block">Username</label>
-      <input id="username" formControlName="username" class="border rounded w-full p-2" />
-      <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500">
-        <small>Username is required and must be at least 6 characters long.</small>
-      </div>
+  <h2 class="text-xl font-bold mb-4">{{ 'REGISTER_TITLE' | translate }}</h2>
+
+  <!-- Username -->
+  <div>
+    <label for="username" class="block">{{ 'USERNAME_LABEL' | translate }}</label>
+    <input id="username" formControlName="username" class="border rounded w-full p-2" />
+    <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched" class="text-red-500">
+      <small>{{ 'USERNAME_ERROR' | translate }}</small>
     </div>
-  
-    <div>
-      <label for="email" class="block">Email</label>
-      <input id="email" formControlName="email" type="email" class="border rounded w-full p-2" />
-      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-red-500">
-        <small>Valid email is required.</small>
-      </div>
+  </div>
+
+  <!-- Email -->
+  <div>
+    <label for="email" class="block">{{ 'EMAIL_LABEL' | translate }}</label>
+    <input id="email" formControlName="email" type="email" class="border rounded w-full p-2" />
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-red-500">
+      <small>{{ 'EMAIL_ERROR' | translate }}</small>
     </div>
-  
-    <div>
-      <label for="password" class="block">Password</label>
-      <input id="password" formControlName="password" type="password" class="border rounded w-full p-2" />
-      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-red-500">
-        <small>Password is required and must be at least 8 characters long.</small>
-      </div>
+  </div>
+
+  <!-- Password -->
+  <div>
+    <label for="password" class="block">{{ 'PASSWORD_LABEL' | translate }}</label>
+    <input id="password" formControlName="password" type="password" class="border rounded w-full p-2" />
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-red-500">
+      <small>{{ 'PASSWORD_ERROR' | translate }}</small>
     </div>
-  
-    <div>
-      <label for="repassword" class="block">Confirm Password</label>
-      <input id="repassword" formControlName="repassword" type="password" class="border rounded w-full p-2" />
-      <div *ngIf="registerForm.get('repassword')?.invalid && registerForm.get('repassword')?.touched" class="text-red-500">
-        <small>Passwords do not match.</small>
-      </div>
+  </div>
+
+  <!-- Confirm Password -->
+  <div>
+    <label for="repassword" class="block">{{ 'CONFIRM_PASSWORD_LABEL' | translate }}</label>
+    <input id="repassword" formControlName="repassword" type="password" class="border rounded w-full p-2" />
+    <div *ngIf="registerForm.get('repassword')?.invalid && registerForm.get('repassword')?.touched"
+      class="text-red-500">
+      <small>{{ 'CONFIRM_PASSWORD_ERROR' | translate }}</small>
     </div>
-  
-    <button type="submit" [disabled]="registerForm.invalid" class="bg-blue-500 text-white py-2 px-4 rounded mt-4">Register</button>
-  </form>
-  
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit" [disabled]="registerForm.invalid" class="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+    {{ 'REGISTER_BUTTON' | translate }}
+  </button>
+</form>

@@ -1,23 +1,27 @@
 <!-- src/app/login/login.component.html -->
 <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="max-w-md mx-auto mt-10 p-4 border rounded shadow-lg">
-    <h2 class="text-xl font-bold mb-4">Login</h2>
+    <h2 class="text-xl font-bold mb-4">{{ 'LOGIN_TITLE' | translate }}</h2>
 
+    <!-- Username -->
     <div>
-        <label for="username" class="block">Username</label>
+        <label for="username" class="block">{{ 'USERNAME_LABEL' | translate }}</label>
         <input id="username" formControlName="username" class="border rounded w-full p-2" />
         <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="text-red-500">
-            <small>Username is required.</small>
+            <small>{{ 'USERNAME_REQUIRED_ERROR' | translate }}</small>
         </div>
     </div>
 
+    <!-- Password -->
     <div>
-        <label for="password" class="block">Password</label>
+        <label for="password" class="block">{{ 'PASSWORD_LABEL' | translate }}</label>
         <input id="password" formControlName="password" type="password" class="border rounded w-full p-2" />
         <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500">
-            <small>Password is required.</small>
+            <small>{{ 'PASSWORD_REQUIRED_ERROR' | translate }}</small>
         </div>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid"
-        class="bg-blue-500 text-white py-2 px-4 rounded mt-4">Login</button>
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="loginForm.invalid" class="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+        {{ 'LOGIN_BUTTON' | translate }}
+    </button>
 </form>
